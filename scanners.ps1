@@ -18,44 +18,44 @@ $Banner = @"
 ██║     ██╔═══╝ ╚██╗ ██╔╝██╔═══╝ ██║   ██║   
 ╚██████╗██║      ╚████╔╝ ██║██╗  ██║   ██║   
  ╚═════╝╚═╝       ╚═══╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
-                                           
+                                              
 
 "@
 
 Write-Host $Banner -ForegroundColor Cyan
 Write-Host ""
-Write-Host "                Made with " -ForegroundColor Gray -NoNewline
-Write-Host "♥ " -ForegroundColor Red -NoNewline
-Write-Host "by " -ForegroundColor Gray -NoNewline
-Write-Host "CPVP.it" -ForegroundColor Cyan
+Write-Host "  CPVP.IT Mod Scanner" -ForegroundColor White
+Write-Host "  Professional Anti-Cheat Tool" -ForegroundColor DarkGray
 Write-Host ""
-Write-Host ("━" * 76) -ForegroundColor DarkCyan
+Write-Host ("─" * 76) -ForegroundColor DarkCyan
 Write-Host
 
-Write-Host "Enter path to the mods folder: " -NoNewline
-Write-Host "(press Enter to use default)" -ForegroundColor DarkGray
-$modsPath = Read-Host "PATH"
+
+Write-Host "Insert mods folder path: " -NoNewline
+Write-Host "(leave empty for default)" -ForegroundColor DarkGray
+$modsPath = Read-Host " "
 Write-Host
+
 
 if ([string]::IsNullOrWhiteSpace($modsPath)) {
     $modsPath = "$env:USERPROFILE\AppData\Roaming\.minecraft\mods"
-    Write-Host "Continuing with " -NoNewline
-    Write-Host $modsPath -ForegroundColor White
+    Write-Host "Using default path: " -NoNewline
+    Write-Host $modsPath -ForegroundColor Green
     Write-Host
 }
 
 if (-not (Test-Path $modsPath -PathType Container)) {
-    Write-Host "Invalid Path!" -ForegroundColor Red
-    Write-Host "The directory does not exist or is not accessible." -ForegroundColor Yellow
+    Write-Host "ERROR!" -ForegroundColor Red
+    Write-Host "Folder not found or can't be accessed!" -ForegroundColor Yellow
     Write-Host
-    Write-Host "Tried to access: $modsPath" -ForegroundColor Gray
+    Write-Host "Path: $modsPath" -ForegroundColor Gray
     Write-Host
     Write-Host "Press any key to exit..." -ForegroundColor Gray
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
 }
 
-Write-Host "Scanning directory: $modsPath" -ForegroundColor Green
+Write-Host "Analyzing: $modsPath" -ForegroundColor Green
 Write-Host
 
 $mcProcess = Get-Process javaw -ErrorAction SilentlyContinue
@@ -1057,7 +1057,7 @@ $spinnerFrames = @("⣾","⣽","⣻","⢿","⡿","⣟","⣯","⣷")
 $totalFiles    = $jarFiles.Count
 $idx           = 0
 
-Write-Host "Pass 1 — Hash verification (Modrinth + Megabase)..." -ForegroundColor Cyan
+Write-Host "Step 1 — Checking Modrinth Database..." -ForegroundColor Cyan
 
 foreach ($jar in $jarFiles) {
     $idx++
@@ -1100,7 +1100,7 @@ foreach ($jar in $jarFiles) {
 Write-Host "`r$(' ' * 100)`r" -NoNewline
 
 $modWord = if ($totalFiles -eq 1) { "mod" } else { "mods" }
-Write-Host "Pass 2 — Deep-scanning all $totalFiles $modWord..." -ForegroundColor Cyan
+Write-Host "Step 2 — Analyzing Mod Files..." -ForegroundColor Cyan
 $idx = 0
 
 foreach ($jar in $jarFiles) {
@@ -1129,7 +1129,7 @@ foreach ($jar in $jarFiles) {
 
 Write-Host "`r$(' ' * 100)`r" -NoNewline
 
-Write-Host "Pass 3 — Bypass/injection scan on all $totalFiles $modWord..." -ForegroundColor Magenta
+Write-Host "Step 3 — Checking for Bypasses..." -ForegroundColor Magenta
 $idx = 0
 
 foreach ($jar in $jarFiles) {
@@ -1157,7 +1157,7 @@ foreach ($jar in $jarFiles) {
 
 Write-Host "`r$(' ' * 100)`r" -NoNewline
 
-Write-Host "Pass 4 — Obfuscation analysis on all $totalFiles $modWord..." -ForegroundColor DarkCyan
+Write-Host "Step 4 — Obfuscation Check..." -ForegroundColor DarkCyan
 $idx = 0
 
 foreach ($jar in $jarFiles) {
@@ -1183,7 +1183,7 @@ foreach ($jar in $jarFiles) {
 Write-Host "`r$(' ' * 100)`r" -NoNewline
 
 $jvmFlags = @()
-Write-Host "⚡ Pass 5 — Scanning JVM for agents and injections..." -ForegroundColor DarkYellow
+Write-Host "Step 5 — JVM Runtime Analysis..." -ForegroundColor DarkYellow
 $jvmFlags = Invoke-JvmScan
 if ($jvmFlags.Count -gt 0) {
     Write-Host "JVM issues found!" -ForegroundColor Yellow
@@ -1282,7 +1282,7 @@ if ($jvmFlags.Count -gt 0) {
     Write-Host ""
 }
 
-Write-Host "SUMMARY" -ForegroundColor Cyan
+Write-Host "FINAL REPORT" -ForegroundColor Cyan
 Write-Rule "━" 76 Blue
 Write-Host "  Total files scanned: " -ForegroundColor Gray -NoNewline; Write-Host "$totalFiles"                   -ForegroundColor White
 Write-Host "  Verified mods:       " -ForegroundColor Gray -NoNewline; Write-Host "$($verifiedMods.Count)"        -ForegroundColor Green
@@ -1353,12 +1353,10 @@ Write-Host ""
 Write-Host "  CPVP.IT Scanners" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Created by: " -ForegroundColor White -NoNewline
-Write-Host "" -ForegroundColor Cyan -NoNewline
 Write-Host "CPVP.it" -ForegroundColor Cyan
 Write-Host "DISCORD: " -ForegroundColor White -NoNewline
-Write-Host "" -ForegroundColor Blue -NoNewline
-Write-Host "discord.gg/cpvp.it  : " -ForegroundColor Blue -NoNewline
-Write-Host "                 " -NoNewline
+Write-Host "discord.gg/cpvp.it" -ForegroundColor Blue
+Write-Host ""
 Write-Rule "━" 76 Blue
 Write-Host ""
 Write-Host "Press any key to exit..." -ForegroundColor DarkGray
