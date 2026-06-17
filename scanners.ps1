@@ -12,24 +12,14 @@ if ($currentFont -notmatch "NSimSun|Gothic|Noto") {
 
 $Banner = @"
 
-  ███╗   ███╗███████╗ ██████╗ ██╗    ██╗  ███╗   ███╗ ██████╗ ██████╗
-  ████╗ ████║██╔════╝██╔═══██╗██║    ██║  ████╗ ████║██╔═══██╗██╔══██╗
-  ██╔████╔██║█████╗  ██║   ██║██║ █╗ ██║  ██╔████╔██║██║   ██║██║  ██║
-  ██║╚██╔╝██║██╔══╝  ██║   ██║██║███╗██║  ██║╚██╔╝██║██║   ██║██║  ██║
-  ██║ ╚═╝ ██║███████╗╚██████╔╝╚███╔███╔╝  ██║ ╚═╝ ██║╚██████╔╝██████╔╝
-  ╚═╝     ╚═╝╚══════╝ ╚═════╝  ╚══╝╚══╝   ╚═╝     ╚═╝ ╚═════╝ ╚═════╝
-
-   █████╗ ███╗   ██╗ █████╗ ██╗   ██╗   ██╗███████╗███████╗██████╗
-  ██╔══██╗████╗  ██║██╔══██╗██║   ╚██╗ ██╔╝╚══███╔╝██╔════╝██╔══██╗
-  ███████║██╔██╗ ██║███████║██║    ╚████╔╝   ███╔╝ █████╗  ██████╔╝
-  ██╔══██║██║╚██╗██║██╔══██║██║     ╚██╔╝   ███╔╝  ██╔══╝  ██╔══██╗
-  ██║  ██║██║ ╚████║██║  ██║███████╗ ██║   ███████╗███████╗██║  ██║
-  ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚══════╝ ╚═╝   ╚══════╝╚══════╝╚═╝  ╚═╝
-
-                         \    /\
-                          )  ( ')
-                         (  /  )
-                          \(__)|
+ $$$$$$\  $$$$$$$\  $$\    $$\ $$$$$$$\ $$$$$$\ $$$$$$$$\ 
+$$  __$$\ $$  __$$\ $$ |   $$ |$$  __$$\\_$$  _|\__$$  __|
+$$ /  \__|$$ |  $$ |$$ |   $$ |$$ |  $$ | $$ |     $$ |   
+$$ |      $$$$$$$  |\$$\  $$  |$$$$$$$  | $$ |     $$ |   
+$$ |      $$  ____/  \$$\$$  / $$  ____/  $$ |     $$ |   
+$$ |  $$\ $$ |        \$$$  /  $$ |       $$ |     $$ |   
+\$$$$$$  |$$ |         \$  /   $$ |$$\  $$$$$$\    $$ |   
+ \______/ \__|          \_/    \__|\__| \______|   \__|  
 
 "@
 
@@ -38,7 +28,7 @@ Write-Host ""
 Write-Host "                Made with " -ForegroundColor Gray -NoNewline
 Write-Host "♥ " -ForegroundColor Red -NoNewline
 Write-Host "by " -ForegroundColor Gray -NoNewline
-Write-Host "MeowTonynoh" -ForegroundColor Cyan
+Write-Host "CPVP.it" -ForegroundColor Cyan
 Write-Host ""
 Write-Host ("━" * 76) -ForegroundColor DarkCyan
 Write-Host
@@ -56,7 +46,7 @@ if ([string]::IsNullOrWhiteSpace($modsPath)) {
 }
 
 if (-not (Test-Path $modsPath -PathType Container)) {
-    Write-Host "❌ Invalid Path!" -ForegroundColor Red
+    Write-Host "Invalid Path!" -ForegroundColor Red
     Write-Host "The directory does not exist or is not accessible." -ForegroundColor Yellow
     Write-Host
     Write-Host "Tried to access: $modsPath" -ForegroundColor Gray
@@ -66,7 +56,7 @@ if (-not (Test-Path $modsPath -PathType Container)) {
     exit 1
 }
 
-Write-Host "📁 Scanning directory: $modsPath" -ForegroundColor Green
+Write-Host "Scanning directory: $modsPath" -ForegroundColor Green
 Write-Host
 
 $mcProcess = Get-Process javaw -ErrorAction SilentlyContinue
@@ -78,7 +68,7 @@ if ($mcProcess) {
     try {
         $startTime = $mcProcess.StartTime
         $uptime = (Get-Date) - $startTime
-        Write-Host "🕒 { Minecraft Uptime }" -ForegroundColor DarkCyan
+        Write-Host "{ Minecraft Uptime }" -ForegroundColor DarkCyan
         Write-Host "   $($mcProcess.Name) PID $($mcProcess.Id) started at $startTime" -ForegroundColor Gray
         Write-Host "   Running for: $($uptime.Hours)h $($uptime.Minutes)m $($uptime.Seconds)s" -ForegroundColor Gray
         Write-Host ""
@@ -1047,28 +1037,28 @@ $obfuscatedMods  = @()
 try {
     $jarFiles = Get-ChildItem -Path $modsPath -Filter *.jar -ErrorAction Stop
 } catch {
-    Write-Host "❌ Error accessing directory: $_" -ForegroundColor Red
+    Write-Host "Error accessing directory: $_" -ForegroundColor Red
     Write-Host "Press any key to exit..." -ForegroundColor Gray
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
 }
 
 if ($jarFiles.Count -eq 0) {
-    Write-Host "⚠️  No JAR files found in: $modsPath" -ForegroundColor Yellow
+    Write-Host "No JAR files found in: $modsPath" -ForegroundColor Yellow
     Write-Host "Press any key to exit..." -ForegroundColor Gray
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 0
 }
 
 $fileWord    = if ($jarFiles.Count -eq 1) { "file" } else { "files" }
-Write-Host "🔍 Found $($jarFiles.Count) JAR $fileWord to analyze" -ForegroundColor Green
+Write-Host "Found $($jarFiles.Count) JAR $fileWord to analyze" -ForegroundColor Green
 Write-Host
 
 $spinnerFrames = @("⣾","⣽","⣻","⢿","⡿","⣟","⣯","⣷")
 $totalFiles    = $jarFiles.Count
 $idx           = 0
 
-Write-Host "🔍 Pass 1 — Hash verification (Modrinth + Megabase)..." -ForegroundColor Cyan
+Write-Host "Pass 1 — Hash verification (Modrinth + Megabase)..." -ForegroundColor Cyan
 
 foreach ($jar in $jarFiles) {
     $idx++
@@ -1111,7 +1101,7 @@ foreach ($jar in $jarFiles) {
 Write-Host "`r$(' ' * 100)`r" -NoNewline
 
 $modWord = if ($totalFiles -eq 1) { "mod" } else { "mods" }
-Write-Host "🔬 Pass 2 — Deep-scanning all $totalFiles $modWord..." -ForegroundColor Cyan
+Write-Host "Pass 2 — Deep-scanning all $totalFiles $modWord..." -ForegroundColor Cyan
 $idx = 0
 
 foreach ($jar in $jarFiles) {
@@ -1140,7 +1130,7 @@ foreach ($jar in $jarFiles) {
 
 Write-Host "`r$(' ' * 100)`r" -NoNewline
 
-Write-Host "🛡️  Pass 3 — Bypass/injection scan on all $totalFiles $modWord..." -ForegroundColor Magenta
+Write-Host "Pass 3 — Bypass/injection scan on all $totalFiles $modWord..." -ForegroundColor Magenta
 $idx = 0
 
 foreach ($jar in $jarFiles) {
@@ -1168,7 +1158,7 @@ foreach ($jar in $jarFiles) {
 
 Write-Host "`r$(' ' * 100)`r" -NoNewline
 
-Write-Host "🔎 Pass 4 — Obfuscation analysis on all $totalFiles $modWord..." -ForegroundColor DarkCyan
+Write-Host "Pass 4 — Obfuscation analysis on all $totalFiles $modWord..." -ForegroundColor DarkCyan
 $idx = 0
 
 foreach ($jar in $jarFiles) {
@@ -1197,9 +1187,9 @@ $jvmFlags = @()
 Write-Host "⚡ Pass 5 — Scanning JVM for agents and injections..." -ForegroundColor DarkYellow
 $jvmFlags = Invoke-JvmScan
 if ($jvmFlags.Count -gt 0) {
-    Write-Host "   ⚠️  JVM issues found!" -ForegroundColor Yellow
+    Write-Host "JVM issues found!" -ForegroundColor Yellow
 } else {
-    Write-Host "   ✓  JVM looks clean" -ForegroundColor DarkGray
+    Write-Host "JVM looks clean" -ForegroundColor DarkGray
 }
 
 Write-Host "`r$(' ' * 100)`r" -NoNewline
@@ -1293,7 +1283,7 @@ if ($jvmFlags.Count -gt 0) {
     Write-Host ""
 }
 
-Write-Host "📊 SUMMARY" -ForegroundColor Cyan
+Write-Host "SUMMARY" -ForegroundColor Cyan
 Write-Rule "━" 76 Blue
 Write-Host "  Total files scanned: " -ForegroundColor Gray -NoNewline; Write-Host "$totalFiles"                   -ForegroundColor White
 Write-Host "  Verified mods:       " -ForegroundColor Gray -NoNewline; Write-Host "$($verifiedMods.Count)"        -ForegroundColor Green
@@ -1306,7 +1296,6 @@ Write-Host
 Write-Rule "━" 76 Blue
 Write-Host ""
 
-# ------------------- WEBHOOK DISCORD -------------------
 $WEBHOOK_LEGIT = "https://discord.com/api/webhooks/1516894842129481748/R_3BabH2lLdMc_2wKiaOTy9v0TGfcfM0oKmBItpLAL0sfMOuM8Uzs-qsUXXiHyTwMTCG"
 $WEBHOOK_SUSPICIOUS = "https://discord.com/api/webhooks/1516894904083546126/ITKUS6FElobBzbemEh6-KUPNY1Fac86e2Ivle-qEx9eV-5sMEtYzTdH_5PsGLNTrj4bQ"
 $WEBHOOK_CHEAT = "https://discord.com/api/webhooks/1516894976296882341/BY_8YykAlNsoBuhZ7bS89zH74D6diQ8IxuOE7fX0Rwf3PiqyoE-zziGe0l9v2vhhW0It"
@@ -1347,7 +1336,6 @@ $fields = @(
     @{name = "Obfuscated"; value = [string]$obfuscatedMods.Count; inline = $true}
 )
 
-# Invia webhook per cheat/sospetti
 if ($suspiciousMods.Count -gt 0 -or $bypassMods.Count -gt 0) {
     $cheatList = @()
     foreach ($mod in $suspiciousMods) { $cheatList += "- $($mod.FileName)" }
@@ -1358,30 +1346,20 @@ if ($suspiciousMods.Count -gt 0 -or $bypassMods.Count -gt 0) {
     Send-DiscordWebhook -WebhookUrl $WEBHOOK_CHEAT -Title "SUSPICIOUS MODS DETECTED!" -Color "16711680" -Description "Found potentially malicious mods" -Fields $cheatFields
 }
 
-# Invia sempre il webhook legit
 Send-DiscordWebhook -WebhookUrl $WEBHOOK_LEGIT -Title "Scan Complete" -Color "65280" -Description "Scan completed successfully" -Fields $fields
 
-Write-Host "  📤 Webhook sent!" -ForegroundColor Green
+Write-Host "  Webhook Sent!" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "  ✨ Analysis complete! Thanks for using Meow Mod Analyzer 🐱" -ForegroundColor Cyan
+Write-Host "  CPVP.IT Scanners" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  👤 Created by: " -ForegroundColor White -NoNewline
-Write-Host "🌟 " -ForegroundColor Cyan -NoNewline
-Write-Host "Tonynoh" -ForegroundColor Cyan
-Write-Host "  📱 My Socials: " -ForegroundColor White -NoNewline
-Write-Host "💬 " -ForegroundColor Blue -NoNewline
-Write-Host "Discord  : " -ForegroundColor Blue -NoNewline
-Write-Host "tonyboy90_" -ForegroundColor Blue
+Write-Host "Created by: " -ForegroundColor White -NoNewline
+Write-Host "" -ForegroundColor Cyan -NoNewline
+Write-Host "CPVP.it" -ForegroundColor Cyan
+Write-Host "DISCORD: " -ForegroundColor White -NoNewline
+Write-Host "" -ForegroundColor Blue -NoNewline
+Write-Host "discord.gg/cpvp.it  : " -ForegroundColor Blue -NoNewline
 Write-Host "                 " -NoNewline
-Write-Host "🔗 " -ForegroundColor DarkGray -NoNewline
-Write-Host "GitHub   : " -ForegroundColor DarkGray -NoNewline
-Write-Host "https://github.com/MeowTonynoh" -ForegroundColor DarkGray
-Write-Host "                 " -NoNewline
-Write-Host "🎥 " -ForegroundColor Red -NoNewline
-Write-Host "YouTube  : " -ForegroundColor Red -NoNewline
-Write-Host "tonynoh-07" -ForegroundColor Red
-Write-Host ""
 Write-Rule "━" 76 Blue
 Write-Host ""
 Write-Host "Press any key to exit..." -ForegroundColor DarkGray
