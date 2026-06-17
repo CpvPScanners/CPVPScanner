@@ -5,26 +5,7 @@ $OutputEncoding           = [System.Text.Encoding]::UTF8
 chcp 65001 | Out-Null
 Clear-Host
 
-$Banner = @"
-
-╔══════════════════════════════════════════════════════════════════════╗
-║                                                                      ║
-║   /$$$$$$  /$$$$$$$  /$$    /$$ /$$$$$$$  /$$$$$$ /$$$$$$$$        ║
-║  /$$__  $$| $$__  $$| $$   | $$| $$__  $$|_  $$_/|__  $$__/        ║
-║ | $$  \__/| $$  \ $$| $$   | $$| $$  \ $$  | $$     | $$           ║
-║ | $$      | $$$$$$$/|  $$ / $$/| $$$$$$$/  | $$     | $$           ║
-║ | $$      | $$____/  \  $$ $$/ | $$____/   | $$     | $$           ║
-║ | $$    $$| $$        \  $$$/  | $$        | $$     | $$           ║
-║ |  $$$$$$/| $$         \  $/   | $$       /$$$$$$   | $$           ║
-║  \______/ |__/          \_/    |__/      |______/   |__/           ║
-║                                                                      ║
-║                         ░░░░  CPVP.IT  ░░░░                         ║
-║                                                                      ║
-╚══════════════════════════════════════════════════════════════════════╝
-
-"@
-
-Write-Host $Banner -ForegroundColor Cyan
+Write-Host "  CPVP.IT Mod Scanner" -ForegroundColor Cyan
 Write-Host
 Write-Host "="*76 -ForegroundColor DarkCyan
 Write-Host
@@ -171,7 +152,6 @@ function Send-DiscordWebhook {
     
     $payload = @{
         username = "CPVP.IT Scanner"
-        avatar_url = "https://raw.githubusercontent.com/CpvPScanners/CPVPScanner/main/icon.png"
         embeds = @(
             @{
                 title = $Title
