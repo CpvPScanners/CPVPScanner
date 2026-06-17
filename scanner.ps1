@@ -7,19 +7,22 @@ Clear-Host
 
 $Banner = @"
 
-==========================================================================
-   ██████╗ ██████╗ ██╗   ██╗██████╗     ███████╗ ██████╗ █████╗ ███╗   ██╗
-  ██╔════╝██╔═══██╗██║   ██║██╔══██╗    ██╔════╝██╔════╝██╔══██╗████╗  ██║
-  ██║     ██║   ██║██║   ██║██████╔╝    ███████╗██║     ███████║██╔██╗ ██║
-  ██║     ██║   ██║██║   ██║██╔═══╝     ╚════██║██║     ██╔══██║██║╚██╗██║
-  ╚██████╗╚██████╔╝╚██████╔╝██║         ███████║╚██████╗██║  ██║██║ ╚████║
-   ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝         ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═══╝
-==========================================================================
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                          ║
+║   ██████╗ ██████╗ ██╗   ██╗██████╗     ██╗████████╗    ║
+║  ██╔════╝██╔═══██╗██║   ██║██╔══██╗    ██║╚══██╔══╝    ║
+║  ██║     ██║   ██║██║   ██║██████╔╝    ██║   ██║       ║
+║  ██║     ██║   ██║██║   ██║██╔═══╝     ██║   ██║       ║
+║  ╚██████╗╚██████╔╝╚██████╔╝██║         ██║   ██║       ║
+║   ╚═════╝ ╚═════╝  ╚═════╝ ╚═╝         ╚═╝   ╚═╝       ║
+║                                                                          ║
+║                        ░░░░  CPVP.IT  ░░░░                        ║
+║                                                                          ║
+╚══════════════════════════════════════════════════════════════════════╝
 
 "@
 
 Write-Host $Banner -ForegroundColor Cyan
-Write-Host "  CPVP Mod Scanner - Made with love" -ForegroundColor Gray
 Write-Host
 Write-Host "="*76 -ForegroundColor DarkCyan
 Write-Host
@@ -63,7 +66,7 @@ if ($mcProcess) {
         $uptime = (Get-Date) - $startTime
         Write-Host "Minecraft Uptime: $($uptime.Hours)h $($uptime.Minutes)m $($uptime.Seconds)s" -ForegroundColor DarkCyan
         Write-Host
-    } catch { }
+    } catch {}
 }
 
 Add-Type -AssemblyName System.IO.Compression.FileSystem
@@ -155,17 +158,18 @@ function Query-Modrinth {
         $versionInfo = Invoke-RestMethod -Uri "https://api.modrinth.com/v2/version_file/$Hash" -Method Get -UseBasicParsing -ErrorAction Stop
         if ($versionInfo.project_id) {
             $projectInfo = Invoke-RestMethod -Uri "https://api.modrinth.com/v2/project/$($versionInfo.project_id)" -Method Get -UseBasicParsing -ErrorAction Stop
-            return @{ Name = $projectInfo.title; Slug = $projectInfo.slug; Found = $true }
+            return @{Name = $projectInfo.title; Slug = $projectInfo.slug; Found = $true}
         }
-    } catch { }
-    return @{ Name = ""; Slug = ""; Found = $false }
+    } catch {}
+    return @{Name = ""; Slug = ""; Found = $false}
 }
 
 function Send-DiscordWebhook {
     param([string]$WebhookUrl, [string]$Title, [string]$Color, [string]$Description, [array]$Fields)
     
     $payload = @{
-        username = "CPVP Scanner"
+        username = "CPVP.IT Scanner"
+        avatar_url = "https://raw.githubusercontent.com/CpvPScanners/CPVPScanner/main/icon.png"
         embeds = @(
             @{
                 title = $Title
@@ -173,7 +177,7 @@ function Send-DiscordWebhook {
                 description = $Description
                 fields = $Fields
                 timestamp = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
-                footer = @{ text = "CPVP Mod Scanner" }
+                footer = @{text = "CPVP.IT"}
             }
         )
     }
@@ -260,23 +264,23 @@ foreach ($jar in $jars) {
             Write-Host " - " -NoNewline
             Write-Host "CHEAT DETECTED" -ForegroundColor Red -NoNewline
             Write-Host " ($($foundMatches.Count) matches)"
-            $results.Cheats += @{ File = $filename; Matches = $foundMatches; SHA1 = $sha1; Source = $downloadSource; Modrinth = $modrinthResult }
+            $results.Cheats += @{File = $filename; Matches = $foundMatches; SHA1 = $sha1; Source = $downloadSource; Modrinth = $modrinthResult}
         } elseif ($foundMatches.Count -gt 0) {
             $verdict = "SUSPICIOUS"
             Write-Host " - " -NoNewline
             Write-Host "SUSPICIOUS" -ForegroundColor Yellow -NoNewline
             Write-Host " ($($foundMatches.Count) matches)"
-            $results.Suspicious += @{ File = $filename; Matches = $foundMatches; SHA1 = $sha1; Source = $downloadSource; Modrinth = $modrinthResult }
+            $results.Suspicious += @{File = $filename; Matches = $foundMatches; SHA1 = $sha1; Source = $downloadSource; Modrinth = $modrinthResult}
         } else {
             Write-Host " - " -NoNewline
             Write-Host "CLEAN" -ForegroundColor Green
-            $results.Clean += @{ File = $filename; SHA1 = $sha1; Source = $downloadSource; Modrinth = $modrinthResult }
+            $results.Clean += @{File = $filename; SHA1 = $sha1; Source = $downloadSource; Modrinth = $modrinthResult}
         }
         
     } catch {
         Write-Host "[$current/$total] [$filename]" -NoNewline
         Write-Host " - ERROR" -ForegroundColor Red
-        $results.Errors += @{ File = $filename; Error = $_.Exception.Message }
+        $results.Errors += @{File = $filename; Error = $_.Exception.Message}
     }
 }
 
@@ -297,18 +301,18 @@ $WEBHOOK_SUSPICIOUS = "https://discord.com/api/webhooks/1516894904083546126/ITKU
 $WEBHOOK_CHEAT = "https://discord.com/api/webhooks/1516894976296882341/BY_8YykAlNsoBuhZ7bS89zH74D6diQ8IxuOE7fX0Rwf3PiqyoE-zziGe0l9v2vhhW0It"
 
 $fields = @(
-    @{ name = "📂 Directory"; value = "`"$modsPath`""; inline = $true },
-    @{ name = "📊 Total"; value = "`"$total`""; inline = $true },
-    @{ name = "🚫 Cheats"; value = "`"$($results.Cheats.Count)`""; inline = $true },
-    @{ name = "⚠️ Suspicious"; value = "`"$($results.Suspicious.Count)`""; inline = $true },
-    @{ name = "✅ Clean"; value = "`"$($results.Clean.Count)`""; inline = $true }
+    @{name = "📂 Directory"; value = "`"$modsPath`""; inline = $true},
+    @{name = "📊 Total"; value = "`"$total`""; inline = $true},
+    @{name = "🚫 Cheats"; value = "`"$($results.Cheats.Count)`""; inline = $true},
+    @{name = "⚠️ Suspicious"; value = "`"$($results.Suspicious.Count)`""; inline = $true},
+    @{name = "✅ Clean"; value = "`"$($results.Clean.Count)`""; inline = $true}
 )
 
 if ($results.Cheats.Count -gt 0) {
-    $cheatList = $results.Cheats | ForEach-Object { 
+    $cheatList = $results.Cheats | ForEach-Object {
         "- $($_.File) ($($_.Matches.Count) matches)"
     }
-    $fields += @{ name = "🚫 Cheats Found"; value = ($cheatList -join "`n"); inline = $false }
+    $fields += @{name = "🚫 Cheats Found"; value = ($cheatList -join "`n"); inline = $false}
     Send-DiscordWebhook -WebhookUrl $WEBHOOK_CHEAT -Title "🚨 CHEATS DETECTED!" -Color "16711680" -Description "Found suspicious mods in the scanned directory" -Fields $fields
 }
 
@@ -316,7 +320,7 @@ if ($results.Suspicious.Count -gt 0) {
     $suspiciousList = $results.Suspicious | ForEach-Object {
         "- $($_.File) ($($_.Matches.Count) matches)"
     }
-    $fields += @{ name = "⚠️ Suspicious Mods"; value = ($suspiciousList -join "`n"); inline = $false }
+    $fields += @{name = "⚠️ Suspicious Mods"; value = ($suspiciousList -join "`n"); inline = $false}
     Send-DiscordWebhook -WebhookUrl $WEBHOOK_SUSPICIOUS -Title "⚠️ Suspicious Mods Found" -Color "16776960" -Description "Found potentially suspicious mods" -Fields $fields
 }
 
