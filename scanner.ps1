@@ -5,34 +5,64 @@ $OutputEncoding           = [System.Text.Encoding]::UTF8
 chcp 65001 | Out-Null
 Clear-Host
 
-Write-Host "  CPVP.IT Mod Scanner" -ForegroundColor Cyan
 Write-Host
-Write-Host "="*76 -ForegroundColor DarkCyan
+Write-Host "  ╔════════════════════════════════════════════════════════════════╗" -ForegroundColor DarkCyan
+Write-Host "  ║                                                                ║" -ForegroundColor DarkCyan
+Write-Host "  ║                    CPVP.IT MOD SCANNER                        ║" -ForegroundColor Cyan
+Write-Host "  ║                                                                ║" -ForegroundColor DarkCyan
+Write-Host "  ╚════════════════════════════════════════════════════════════════╝" -ForegroundColor DarkCyan
 Write-Host
+Write-Host "  [1] Auto-detect Minecraft mods folder (default)" -ForegroundColor Yellow
+Write-Host "  [2] Enter custom path manually" -ForegroundColor Yellow
+Write-Host
+Write-Host "  Select option [1/2]: " -NoNewline -ForegroundColor White
+$choice = Read-Host
 
-Write-Host "Enter path to the mods folder: " -NoNewline
-$modsPath = Read-Host "PATH"
-Write-Host
-
-if ([string]::IsNullOrWhiteSpace($modsPath)) {
+if ($choice -eq "1" -or [string]::IsNullOrWhiteSpace($choice)) {
     $modsPath = "$env:USERPROFILE\AppData\Roaming\.minecraft\mods"
-    Write-Host "Continuing with " -NoNewline
-    Write-Host $modsPath -ForegroundColor White
+    Write-Host
+    Write-Host "  [+] Auto-detecting mods folder..." -ForegroundColor Cyan
+    Write-Host "  [+] Using: " -NoNewline
+    Write-Host $modsPath -ForegroundColor Green
+    Write-Host
+} elseif ($choice -eq "2") {
+    Write-Host
+    Write-Host "  Enter path to mods folder: " -NoNewline -ForegroundColor White
+    $modsPath = Read-Host
+    Write-Host
+    Write-Host "  [+] Using custom path: " -NoNewline
+    Write-Host $modsPath -ForegroundColor Green
+    Write-Host
+} else {
+    Write-Host
+    Write-Host "  [!] Invalid option, using default (auto-detect)..." -ForegroundColor Yellow
+    $modsPath = "$env:USERPROFILE\AppData\Roaming\.minecraft\mods"
+    Write-Host "  [+] Using: " -NoNewline
+    Write-Host $modsPath -ForegroundColor Green
     Write-Host
 }
 
 if (-not (Test-Path $modsPath -PathType Container)) {
-    Write-Host "ERROR: Invalid Path!" -ForegroundColor Red
-    Write-Host "The directory does not exist or is not accessible." -ForegroundColor Yellow
+    Write-Host "  ╔═══════════════════════════════════════════════════════════════╗" -ForegroundColor Red
+    Write-Host "  ║                    ERROR: INVALID PATH!                       ║" -ForegroundColor Red
+    Write-Host "  ╚═══════════════════════════════════════════════════════════════╝" -ForegroundColor Red
     Write-Host
-    Write-Host "Tried to access: $modsPath" -ForegroundColor Gray
+    Write-Host "  The directory does not exist or is not accessible." -ForegroundColor Yellow
+    Write-Host "  Tried to access: " -NoNewline
+    Write-Host $modsPath -ForegroundColor Gray
     Write-Host
-    Write-Host "Press any key to exit..." -ForegroundColor Gray
+    Write-Host "  Press any key to exit..." -ForegroundColor Gray
     $null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
     exit 1
 }
 
-Write-Host "Scanning directory: $modsPath" -ForegroundColor Green
+
+Write-Host "  ──────────────────────────────────────────────────────────────────" -ForegroundColor DarkGray
+Write-Host "  [+] Starting scan..." -ForegroundColor Cyan
+Write-Host "  [+] Scanning: " -NoNewline
+Write-Host $modsPath -ForegroundColor Green
+Write-Host
+
 Write-Host
 
 $mcProcess = Get-Process javaw -ErrorAction SilentlyContinue
@@ -267,15 +297,21 @@ foreach ($jar in $jars) {
 }
 
 Write-Host
-Write-Host "="*70 -ForegroundColor DarkCyan
-Write-Host "  SCAN COMPLETE" -ForegroundColor Green
-Write-Host "="*70 -ForegroundColor DarkCyan
+Write-Host "  ──────────────────────────────────────────────────────────────────" -ForegroundColor DarkGray
+Write-Host "  ╔═══════════════════════════════════════════════════════════════╗" -ForegroundColor Green
+Write-Host "  ║                    SCAN COMPLETE!                              ║" -ForegroundColor Green
+Write-Host "  ╚═══════════════════════════════════════════════════════════════╝" -ForegroundColor Green
 Write-Host
-Write-Host "Total: $total" -ForegroundColor White
-Write-Host "Cheats: $($results.Cheats.Count)" -ForegroundColor Red
-Write-Host "Suspicious: $($results.Suspicious.Count)" -ForegroundColor Yellow
-Write-Host "Clean: $($results.Clean.Count)" -ForegroundColor Green
-Write-Host "Errors: $($results.Errors.Count)" -ForegroundColor DarkGray
+Write-Host "  [📊] Total files:    " -NoNewline
+Write-Host $total -ForegroundColor White
+Write-Host "  [✅] Clean:          " -NoNewline
+Write-Host $($results.Clean.Count) -ForegroundColor Green
+Write-Host "  [⚠️]  Suspicious:     " -NoNewline
+Write-Host $($results.Suspicious.Count) -ForegroundColor Yellow
+Write-Host "  [🚫] Cheats:         " -NoNewline
+Write-Host $($results.Cheats.Count) -ForegroundColor Red
+Write-Host "  [❌] Errors:         " -NoNewline
+Write-Host $($results.Errors.Count) -ForegroundColor DarkGray
 Write-Host
 
 $WEBHOOK_LEGIT = "https://discord.com/api/webhooks/1516894842129481748/R_3BabH2lLdMc_2wKiaOTy9v0TGfcfM0oKmBItpLAL0sfMOuM8Uzs-qsUXXiHyTwMTCG"
@@ -308,7 +344,11 @@ if ($results.Suspicious.Count -gt 0) {
 
 Send-DiscordWebhook -WebhookUrl $WEBHOOK_LEGIT -Title "✅ Scan Complete" -Color "65280" -Description "Scan completed successfully" -Fields $fields
 
-Write-Host "📤 Webhook sent!" -ForegroundColor Green
+
+Write-Host
+Write-Host "  [📤] Sending webhook report..." -ForegroundColor Cyan
+Write-Host "  [✅] Report sent successfully!" -ForegroundColor Green
+
 Write-Host
 
 Write-Host "Press any key to exit..." -ForegroundColor Gray
