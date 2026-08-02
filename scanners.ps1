@@ -12,20 +12,20 @@ if ($currentFont -notmatch "NSimSun|Gothic|Noto") {
 
 $Banner = @"
 
- ██████╗██████╗ ██╗   ██╗██████╗ ██╗████████╗
-██╔════╝██╔══██╗██║   ██║██╔══██╗██║╚══██╔══╝
-██║     ██████╔╝██║   ██║██████╔╝██║   ██║   
-██║     ██╔═══╝ ╚██╗ ██╔╝██╔═══╝ ██║   ██║   
-╚██████╗██║      ╚████╔╝ ██║██╗  ██║   ██║   
- ╚═════╝╚═╝       ╚═══╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
+████████╗
+╚══██╔══╝
+██║   ██║   
+██║   ██║   
+██║   ██║   
+╚═╝   ╚═╝   
                                               
 
 "@
 
 Write-Host $Banner -ForegroundColor Cyan
 Write-Host ""
-Write-Host "  CPVP.IT Mod Scanner" -ForegroundColor White
-Write-Host "  Professional Anti-Cheat Tool" -ForegroundColor DarkGray
+Write-Host "  67 scanner" -ForegroundColor White
+Write-Host "  Onlsy Tool" -ForegroundColor DarkGray
 Write-Host ""
 Write-Host ("─" * 76) -ForegroundColor DarkCyan
 Write-Host
@@ -1350,12 +1350,12 @@ Send-DiscordWebhook -WebhookUrl $WEBHOOK_LEGIT -Title "Scan Complete" -Color "65
 Write-Host "  Webhook Sent!" -ForegroundColor Green
 
 Write-Host ""
-Write-Host "  CPVP.IT Scanners" -ForegroundColor Cyan
+Write-Host "  89" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Created by: " -ForegroundColor White -NoNewline
-Write-Host "CPVP.it" -ForegroundColor Cyan
-Write-Host "DISCORD: " -ForegroundColor White -NoNewline
-Write-Host "discord.gg/cpvp.it" -ForegroundColor Blue
+Write-Host "89" -ForegroundColor Cyan
+Write-Host "89: " -ForegroundColor White -NoNewline
+Write-Host "89t" -ForegroundColor Blue
 Write-Host ""
 Write-Rule "━" 76 Blue
 Write-Host ""
